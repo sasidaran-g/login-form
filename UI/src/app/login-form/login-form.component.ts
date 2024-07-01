@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiserviceService } from '../apiservice/apiservice.service';
-declare var google : any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -10,24 +10,15 @@ declare var google : any;
 export class LoginFormComponent implements OnInit {
   email: string = '';
   password: string = '';
-  constructor(private service: ApiserviceService) {}
+  constructor(private service: ApiserviceService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onSubmit(): void {
     console.log(this.email);
     console.log(this.password);
-    this.service.login(this.email, this.password).subscribe(
-      (response) => {
-        console.log('response from server', response);
-      },
-      (error) => {
-        console.log('error', error);
-      }
-    );
+    this.service.login(this.email, this.password).then(() => {
+      this.router.navigate(['/firstpage']);
+    });
   }
-
-  onBlur(): void { 
-    console.log('Focus Is Lost for this Element'); 
-} 
 }

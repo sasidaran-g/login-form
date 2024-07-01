@@ -8,11 +8,13 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FirstpageComponent } from './firstpage/firstpage.component';
+import { OAuthModule,OAuthStorage } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent, SignupFormComponent, FirstpageComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule,
+    OAuthModule.forRoot({resourceServer:{allowedUrls:[''],sendAccessToken: true}})],
+  providers: [ { provide: OAuthStorage, useValue: localStorage }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

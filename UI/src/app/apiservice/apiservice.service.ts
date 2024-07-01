@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { AuthConfig,OAuthService } from 'angular-oauth2-oidc';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiserviceService {
-  Url = 'http://localhost:8080';
-  constructor(private http: HttpClient) {}
+  constructor(private oauthservice:OAuthService,private http:HttpClient){}
 
-  login(email: string, password: string): Observable<any> {
-    console.log('email:', email);
-    console.log('password:', password);
-    return this.http.post(`${this.Url}/logincheck`, { email, password });
+  initAuth(){
+    this.oauthservice.configure({
+      issuer:'',
+      clientId:'518727039166-1v83hb42f5lrqoiskspine75h54beh4m.apps.googleusercontent.com',
+      redirectUri:window.location.origin,
+      responseType:'code',
+      scope:'sasidaran.gnanakumar@gmail.com'
+    });
+    this.oauthservice.loadDiscoveryDocumentAndTryLogin();
+  }
+  login(){
+    return this.oauthservice.fetchTokenUsingPasswordFlow(username,password);
   }
 }
